@@ -1,67 +1,77 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:news_app_dio/shared/cubit/cubit.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-Widget newsItem(article, context) => Padding(
-  padding: const EdgeInsets.all(20.0),
-  child: Row(
-    children: [
-      ConditionalBuilder(
-        condition: article['urlToImage'] != null,
-        builder: (BuildContext context) {
-          return Container(
-            width: 120,
-            height: 120,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage("${article['urlToImage']}"),
-              ),
-            ),
-          );
-        },
-        fallback: (BuildContext context) {
-          return Container();
-        },
-      ),
-      SizedBox(width: 10),
-      Expanded(
-        child: SizedBox(
-          height: 120,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Expanded(
-                child: Text(
-                  maxLines: 4,
-                  overflow: TextOverflow.ellipsis,
-                  ' "${article['title']}"',
-                  style:
-                      NewsCubit.get(context).isDark == true
-                          ? TextStyle(
-                            color: Colors.white,
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                          )
-                          : TextStyle(
-                            color: Colors.black,
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                          ),
+Widget newsItem(article, context) => InkWell(
+  onTap: ()async{
+    if(article['url']!="null"){
+      print(article['url']);
+      await launchUrl(Uri.parse(article['url']));
+    }
+
+  },
+  child: Padding(
+    padding: const EdgeInsets.all(20.0),
+    child: Row(
+      children: [
+        ConditionalBuilder(
+          condition: article['urlToImage'] != null,
+          builder: (BuildContext context) {
+            return Container(
+              width: 120,
+              height: 120,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: NetworkImage("${article['urlToImage']}"),
                 ),
               ),
-              Text(
-                "${article['publishedAt']}",
-                style: TextStyle(color: Colors.grey), // TextStyle
-              ), // Text
-            ],
+            );
+          },
+          fallback: (BuildContext context) {
+            return Container();
+          },
+        ),
+        SizedBox(width: 10),
+        Expanded(
+          child: SizedBox(
+            height: 120,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Expanded(
+                  child: Text(
+                    maxLines: 4,
+                    overflow: TextOverflow.ellipsis,
+                    ' "${article['title']}"',
+                    style:
+                        NewsCubit.get(context).isDark == true
+                            ? TextStyle(
+                              color: Colors.white,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            )
+                            : TextStyle(
+                              color: Colors.black,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                  ),
+                ),
+                Text(
+                  "${article['publishedAt']}",
+                  style: TextStyle(color: Colors.grey), // TextStyle
+                ), // Text
+              ],
+            ),
           ),
         ),
-      ),
-    ],
+      ],
+    ),
   ),
 );
 
