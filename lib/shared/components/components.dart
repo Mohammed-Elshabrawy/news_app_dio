@@ -1,7 +1,8 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
+import 'package:news_app_dio/shared/cubit/cubit.dart';
 
-Widget newsItem(article,context) => Padding(
+Widget newsItem(article, context) => Padding(
   padding: const EdgeInsets.all(20.0),
   child: Row(
     children: [
@@ -38,7 +39,18 @@ Widget newsItem(article,context) => Padding(
                   maxLines: 4,
                   overflow: TextOverflow.ellipsis,
                   ' "${article['title']}"',
-                  style: Theme.of(context).textTheme.titleSmall,
+                  style:
+                      NewsCubit.get(context).isDark == true
+                          ? TextStyle(
+                            color: Colors.white,
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                          )
+                          : TextStyle(
+                            color: Colors.black,
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                          ),
                 ),
               ),
               Text(
@@ -63,9 +75,35 @@ Widget articleBuilder(list, context) => ConditionalBuilder(
   builder:
       (context) => ListView.separated(
         physics: BouncingScrollPhysics(),
-        itemBuilder: (BuildContext context, int index) => newsItem(list[index],context),
+        itemBuilder:
+            (BuildContext context, int index) => newsItem(list[index], context),
         separatorBuilder: (BuildContext context, int index) => mySeparator(),
         itemCount: list.length,
       ),
   fallback: (context) => const Center(child: CircularProgressIndicator()),
+);
+
+Widget defaultFormFiled({
+  bool readOnly = false,
+  onTab,
+  onSubmit,
+  onChange,
+  required TextEditingController controller,
+  required TextInputType type,
+  required FormFieldValidator<String> validate,
+  required String label,
+  required IconData prefix,
+}) => TextFormField(
+  readOnly: readOnly,
+  onTap: onTab,
+  controller: controller,
+  keyboardType: type,
+  onFieldSubmitted: onSubmit,
+  onChanged: onChange,
+  validator: validate,
+  decoration: InputDecoration(
+    labelText: label,
+    prefixIcon: Icon(prefix), // Icon
+    border: OutlineInputBorder(),
+  ), // InputDecoration
 );

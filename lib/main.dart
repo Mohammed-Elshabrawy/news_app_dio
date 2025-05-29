@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => NewsCubit()..changeThemeMode(fromShared: isDark),
+      create: (BuildContext context) => NewsCubit()..changeThemeMode(fromShared: isDark)..getBusiness()..getScience()..getSports(),
       child: BlocConsumer<NewsCubit, NewsStates>(
         listener: (BuildContext context, Object? state) {},
         builder: (BuildContext context, state) {
@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
                 titleSmall: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
+                  color: Colors.black,
                 ),
               ),
               scaffoldBackgroundColor: Colors.white,
@@ -57,7 +58,43 @@ class MyApp extends StatelessWidget {
               ),
               useMaterial3: true
             ),
-            darkTheme: ThemeData.dark(),
+            darkTheme: ThemeData(
+                primarySwatch: Colors.deepOrange,
+                floatingActionButtonTheme: FloatingActionButtonThemeData(
+                  backgroundColor: Colors.deepOrange,
+                ),
+                textTheme: TextTheme(
+                  titleSmall: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                scaffoldBackgroundColor: Colors.black,
+                appBarTheme: const AppBarTheme(
+                  titleTextStyle: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  iconTheme: IconThemeData(
+                    color: Colors.white,
+                  ),
+                  systemOverlayStyle: SystemUiOverlayStyle(
+                    statusBarIconBrightness: Brightness.light,
+                    statusBarColor: Colors.black,
+                  ),
+                  color: Colors.black,
+                ),
+                bottomNavigationBarTheme: BottomNavigationBarThemeData(
+                  backgroundColor: Colors.black,
+                  selectedItemColor: Colors.deepOrange,
+                  unselectedItemColor: Colors.grey,
+                  elevation: 18.0,
+                  type: BottomNavigationBarType.fixed,
+                ),
+                useMaterial3: true
+            ),
             themeMode: NewsCubit.get(context).isDark? ThemeMode.dark:ThemeMode.light,
             home: const MyHomePage(title: 'Flutter Demo Home Page'),
           );

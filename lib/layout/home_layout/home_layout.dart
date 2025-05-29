@@ -11,22 +11,18 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => NewsCubit()..getBusiness()..getSports()..getScience(),
-
-      child: BlocConsumer<NewsCubit, NewsStates>(
+    return  BlocConsumer<NewsCubit, NewsStates>(
         listener: (BuildContext context, Object? state) {},
         builder: (BuildContext context, state) {
           var cubit = NewsCubit.get(context);
           return Scaffold(
-
             appBar: AppBar(
               title: Text("News App"),
               actions: [
                 IconButton(onPressed: () {}, icon: Icon(Icons.search)),
                 IconButton(
                   onPressed: () {
-                    NewsCubit.get(context).changeThemeMode();
+                    cubit.changeThemeMode();
                   },
                   icon: Icon(Icons.brightness_4_outlined),
                 ),
@@ -42,7 +38,6 @@ class MyHomePage extends StatelessWidget {
             ),
           );
         },
-      ),
     );
   }
 }
