@@ -88,12 +88,15 @@ Widget defaultFormFiled({
   onTab,
   onSubmit,
   onChange,
+  labelStyle,
+  textStyle,
   required TextEditingController controller,
   required TextInputType type,
   required FormFieldValidator<String> validate,
   required String label,
   required IconData prefix,
 }) => TextFormField(
+  style: textStyle,
   readOnly: readOnly,
   onTap: onTab,
   controller: controller,
@@ -102,8 +105,12 @@ Widget defaultFormFiled({
   onChanged: onChange,
   validator: validate,
   decoration: InputDecoration(
+    labelStyle: labelStyle,
     labelText: label,
     prefixIcon: Icon(prefix), // Icon
     border: OutlineInputBorder(),
   ), // InputDecoration
 );
+
+void navigateTo(context, widget) =>
+    Navigator.push(context, MaterialPageRoute(builder: (context) => widget));

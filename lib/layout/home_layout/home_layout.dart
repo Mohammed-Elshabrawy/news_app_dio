@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../modules/search_screen/search_screen.dart';
+import '../../shared/components/components.dart';
 import '../../shared/cubit/cubit.dart';
 import '../../shared/cubit/states.dart';
 
@@ -18,7 +20,9 @@ class MyHomePage extends StatelessWidget {
             appBar: AppBar(
               title: Text("News App"),
               actions: [
-                IconButton(onPressed: () {}, icon: Icon(Icons.search)),
+                IconButton(onPressed: () {
+                  navigateTo(context, Search());
+                }, icon: Icon(Icons.search)),
                 IconButton(
                   onPressed: () {
                     cubit.changeThemeMode();
