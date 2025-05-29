@@ -6,7 +6,6 @@ import 'package:url_launcher/url_launcher.dart';
 Widget newsItem(article, context) => InkWell(
   onTap: ()async{
     if(article['url']!="null"){
-      print(article['url']);
       await launchUrl(Uri.parse(article['url']));
     }
 
