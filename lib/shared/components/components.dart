@@ -4,11 +4,10 @@ import 'package:news_app_dio/shared/cubit/cubit.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 Widget newsItem(article, context) => InkWell(
-  onTap: ()async{
-    if(article['url']!="null"){
+  onTap: () async {
+    if (article['url'] != "null") {
       await launchUrl(Uri.parse(article['url']));
     }
-
   },
   child: Padding(
     padding: const EdgeInsets.all(20.0),
@@ -79,7 +78,11 @@ Widget mySeparator() => Padding(
   child: Divider(height: 1, color: Colors.grey),
 );
 
-Widget articleBuilder(list, context) => ConditionalBuilder(
+Widget articleBuilder(
+  list,
+  context, {
+  bool isSearch = false,
+}) => ConditionalBuilder(
   condition: list.length > 0,
   builder:
       (context) => ListView.separated(
@@ -89,7 +92,23 @@ Widget articleBuilder(list, context) => ConditionalBuilder(
         separatorBuilder: (BuildContext context, int index) => mySeparator(),
         itemCount: list.length,
       ),
-  fallback: (context) => const Center(child: CircularProgressIndicator()),
+  fallback:
+      (context) =>
+          isSearch
+              ? Center(
+                child: Text(
+                  'No results found, try again!',
+                  style: TextStyle(
+                    color:
+                        NewsCubit.get(context).isDark
+                            ? Colors.white
+                            : Colors.black,
+                    fontSize: 22.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              )
+              : const Center(child: CircularProgressIndicator()),
 );
 
 Widget defaultFormFiled({
